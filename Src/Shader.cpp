@@ -1,3 +1,10 @@
+//////////////////////
+// FILE: Shader.cpp //
+//////////////////////
+
+//////////////
+// INCLUDES //
+//////////////
 #include "Shader.hpp"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -99,7 +106,17 @@ void Shader::setMat4(glm::mat4 &matrix, std::string name)
     if (location == -1)
     {
         std::cout << "Uniform type mat4 " << name << " not found." << std::endl;
-        return;
     }
     glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+}
+
+void Shader::setInt(int num, std::string name)
+{
+    int location = glGetUniformLocation(ID, name.c_str());
+
+    if (location == -1)
+    {
+        std::cout << "Uniform type int " << name << " not found." << std::endl;
+    }
+    glUniform1i(location, num);
 }

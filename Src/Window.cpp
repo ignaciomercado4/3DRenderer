@@ -1,3 +1,10 @@
+//////////////////////
+// FILE: Window.cpp //
+//////////////////////
+
+//////////////
+// INCLUDES //
+//////////////
 #include "Window.hpp"
 
 Window::Window(const int windowWidth, const int windowHeight, std::string title)
@@ -14,14 +21,14 @@ Window::Window(const int windowWidth, const int windowHeight, std::string title)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     this->window = glfwCreateWindow(windowWidth, windowHeight, title.c_str(), NULL, NULL);
-    if (!this->window)
+    if (!window)
     {
         std::cerr << "Error in window creation." << std::endl;
         glfwTerminate();
         return;
     }
 
-    glfwMakeContextCurrent(this->window);
+    glfwMakeContextCurrent(window);
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK)
@@ -40,16 +47,16 @@ GLFWwindow* Window::getWindowPointer()
 
 bool Window::getWindowShouldClose()
 {
-    return !glfwWindowShouldClose(this->window);
+    return glfwWindowShouldClose(window);
 }
 
 void Window::setWindowShouldClose(bool val)
 {
-    return glfwSetWindowShouldClose(this->window, val);
+    return glfwSetWindowShouldClose(window, val);
 }
 
 void Window::swapBuffersPollEvents()
 {
-    glfwSwapBuffers(this->window);
+    glfwSwapBuffers(window);
     glfwPollEvents();
 }

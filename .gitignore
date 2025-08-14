@@ -5,3 +5,4 @@
 *.vcxproj.filters
 *.vcxproj.user
 /Build
+/Include
