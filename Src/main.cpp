@@ -4,9 +4,8 @@
 
 //////////////
 // INCLUDES //
-////////////// 
+//////////////
 #include <iostream>
-#include <vector>
 #include <fstream>
 #include <string>
 #include <glm/glm.hpp>
@@ -15,6 +14,8 @@
 #include "Shader.hpp"
 #include "Renderer.hpp"
 #include "Texture.hpp"
+#include "Camera.hpp"
+#include "Input.hpp"
 
 ///////////////////
 // CONSTS & VARS //
@@ -22,6 +23,7 @@
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 800;
 const std::string TITLE = "I'm a window";
+Camera camera = Camera();
 
 ///////////////////
 // MAIN FUNCTION //
@@ -33,26 +35,21 @@ int main()
 	Renderer renderer = Renderer();
 	renderer.init();
 
-	glm::mat4 model(1.0f);
-	glm::mat4 view = glm::lookAt(
-		glm::vec3(4, 3, 3),
-		glm::vec3(0, 0, 0),
-		glm::vec3(0, 1, 0));
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)(WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 100.0f);
-	glm::mat4 transform = projection * view * model;
 	Texture texture;
 	texture.loadPNG("test");
-	GLint numUniforms;
-	glGetProgramiv(basicShader.ID, GL_ACTIVE_UNIFORMS, &numUniforms);
-	for (int i = 0; i < numUniforms; i++) {
-		char name[256];
-		glGetActiveUniformName(basicShader.ID, i, sizeof(name), NULL, name);
-		std::cout << "Uniform " << i << ": " << name << std::endl;
-	}
 
 	while (!window.getWindowShouldClose())
 	{
 		renderer.clear();
+		Input::updateKeyboard(camera, window);
+		glm::mat4 model(1.0f);
+		glm::mat4 view = camera.getViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)(WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 100.0f);
+
+		model = glm::translate(model, glm::vec3(0,0,-3));
+
+		glm::mat4 transform = projection * view * model;
+
 		renderer.renderQuad(basicShader, transform, texture);
 		window.swapBuffersPollEvents();
 	}

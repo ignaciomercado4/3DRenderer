@@ -20,7 +20,7 @@ Window::Window(const int windowWidth, const int windowHeight, std::string title)
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    this->window = glfwCreateWindow(windowWidth, windowHeight, title.c_str(), NULL, NULL);
+   window = glfwCreateWindow(windowWidth, windowHeight, title.c_str(), NULL, NULL);
     if (!window)
     {
         std::cerr << "Error in window creation." << std::endl;
@@ -42,7 +42,7 @@ Window::Window(const int windowWidth, const int windowHeight, std::string title)
 
 GLFWwindow* Window::getWindowPointer()
 {
-    return this->window;
+    return window;
 }
 
 bool Window::getWindowShouldClose()

@@ -22,6 +22,8 @@ add_executable(Rendering
     src/Shader.cpp
     src/Renderer.cpp
     src/Texture.cpp
+    src/Camera.cpp
+    src/Input.cpp
 )
 
 # Incluir carpeta ./Include (donde está stb_image.h)
