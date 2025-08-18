@@ -22,13 +22,19 @@ public:
     void moveBackward(float speed);
     void moveLeft(float speed);
     void moveRight(float speed);
+    void mouseLook(int mouseX, int mouseY);
 
 private:
-    glm::vec3 eye;
-    glm::vec3 viewDirection;
-    glm::vec3 upVector;
+    glm::vec3 eye;           
+    glm::vec3 viewDirection; 
+    glm::vec3 upVector;      
 
-    // T.T
+    float yaw;   
+    float pitch; 
+    int lastMouseX;
+    int lastMouseY;
+    bool firstMouse;
+
     glm::mat4 viewMatrix;
 };
 

@@ -30,17 +30,30 @@ void Renderer::clear()
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 };
 
-void Renderer::renderQuad(Shader shader, glm::mat4 transform, Texture texture)
+void Renderer::renderCube(Shader shader, glm::mat4 transform, Texture texture)
 {
     shader.use();
-    shader.setInt(0, "u_Texture"); 
+    shader.setInt(0, "u_Texture");
     // this is a hack (no mesh class yet :P)
     float points[] = {
-        0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.0f, 0.0f, 1.0f};
-    unsigned int indices[] = {0, 1, 3, 1, 2, 3};
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 
+
+        -0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f};
+
+    unsigned int indices[] = {
+        0, 1, 2, 2, 3, 0,
+        4, 5, 6, 6, 7, 4,
+        7, 3, 0, 0, 4, 7,
+        1, 5, 6, 6, 2, 1,
+        3, 2, 6, 6, 7, 3,
+        0, 1, 5, 5, 4, 0};
+        
     unsigned int VAO, VBO, EBO;
 
     glGenVertexArrays(1, &VAO);
@@ -64,5 +77,5 @@ void Renderer::renderQuad(Shader shader, glm::mat4 transform, Texture texture)
     shader.setMat4(transform, "u_Transform");
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture.ID);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }

@@ -30,7 +30,7 @@ Camera camera = Camera();
 ///////////////////
 int main()
 {
-	Window window = Window(WINDOW_WIDTH, WINDOW_HEIGHT, TITLE);
+	Window window = Window(WINDOW_WIDTH, WINDOW_HEIGHT, TITLE, &camera);
 	Shader basicShader = Shader("basicShader");
 	Renderer renderer = Renderer();
 	renderer.init();
@@ -38,6 +38,9 @@ int main()
 	Texture texture;
 	texture.loadPNG("test");
 
+	///////////////
+	// MAIN LOOP //
+	///////////////
 	while (!window.getWindowShouldClose())
 	{
 		renderer.clear();
@@ -50,7 +53,7 @@ int main()
 
 		glm::mat4 transform = projection * view * model;
 
-		renderer.renderQuad(basicShader, transform, texture);
+		renderer.renderCube(basicShader, transform, texture);
 		window.swapBuffersPollEvents();
 	}
 

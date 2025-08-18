@@ -16,7 +16,8 @@ class Renderer
 public:
     Renderer();
     void init();
-    void clear();void Renderer::renderQuad(Shader shader, glm::mat4 transform, Texture texture);
+    void clear();
+    void renderCube(Shader shader, glm::mat4 transform, Texture texture);
 };
 
 #endif

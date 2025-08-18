@@ -6,8 +6,10 @@
 // INCLUDES //
 //////////////
 #include "Window.hpp"
+#include "Camera.hpp"
+#include "InputCallbacks.hpp"
 
-Window::Window(const int windowWidth, const int windowHeight, std::string title)
+Window::Window(const int windowWidth, const int windowHeight, std::string title, Camera* camera)
 {
     if (!glfwInit())
     {
@@ -17,10 +19,10 @@ Window::Window(const int windowWidth, const int windowHeight, std::string title)
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-   window = glfwCreateWindow(windowWidth, windowHeight, title.c_str(), NULL, NULL);
+    window = glfwCreateWindow(windowWidth, windowHeight, title.c_str(), NULL, NULL);
     if (!window)
     {
         std::cerr << "Error in window creation." << std::endl;
@@ -36,6 +38,10 @@ Window::Window(const int windowWidth, const int windowHeight, std::string title)
         std::cerr << "Error in GLEW init." << std::endl;
         return;
     }
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetWindowUserPointer(window, camera);
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     return;
 }

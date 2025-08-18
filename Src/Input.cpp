@@ -14,6 +14,11 @@
 void Input::updateKeyboard(Camera &camera, Window window)
 {
     float speed = 0.125f;
+
+    if (glfwGetKey(window.getWindowPointer(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        window.setWindowShouldClose(true);
+    }
     if (glfwGetKey(window.getWindowPointer(), GLFW_KEY_W) == GLFW_PRESS)
     {
         camera.moveForward(speed);
