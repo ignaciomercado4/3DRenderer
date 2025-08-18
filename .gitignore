@@ -6,3 +6,4 @@
 *.vcxproj.user
 /Build
 /Include
+/Resources/
