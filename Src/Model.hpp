@@ -21,6 +21,7 @@ struct Vertex {
 class Model
 {
 public:
+    Model(std::string fileName) {loadOBJ(fileName);};
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
     

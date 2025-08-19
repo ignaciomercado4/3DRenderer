@@ -10,6 +10,7 @@
 
 #include "Shader.hpp"
 #include "Texture.hpp"
+#include "Model.hpp"
 
 class Renderer
 {
@@ -17,7 +18,12 @@ public:
     Renderer();
     void init();
     void clear();
-    void renderCube(Shader shader, glm::mat4 transform, Texture texture);
+    void renderModel(Model model, Shader shader, glm::mat4 transform, Texture texture);
+    void renderSkybox(Shader shader, glm::mat4 transform, Texture texture);
+private:
+    unsigned VAO;
+    unsigned VBO;
+    unsigned EBO;
 };
 
 #endif
