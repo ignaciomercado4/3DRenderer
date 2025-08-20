@@ -15,9 +15,7 @@ class Camera
 {
 public:
     Camera();
-
     glm::mat4 getViewMatrix() const;
-
     void moveForward(float speed);
     void moveBackward(float speed);
     void moveLeft(float speed);
@@ -36,6 +34,7 @@ private:
     bool firstMouse;
 
     glm::mat4 viewMatrix;
+    glm::mat4 projectionMatrix;
 };
 
 #endif

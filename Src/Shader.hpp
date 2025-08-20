@@ -15,7 +15,7 @@ class Shader
 {
 public:
     unsigned int ID;
-
+    Shader() {};
     Shader(std::string shaderName);
     void use();
     void setMat4(glm::mat4 &matrix, std::string name);

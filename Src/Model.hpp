@@ -8,25 +8,25 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
+#include "Vertex.hpp"
+#include "Mesh.hpp"
+#include "Shader.hpp"
 #include <vector>
 #include <glm/glm.hpp>
 #include <iostream>
 
-struct Vertex {
-    glm::vec3 position;
-    glm::vec2 texCoord;
-    glm::vec3 normal;
-};
-
 class Model
 {
 public:
-    Model(std::string fileName) {loadOBJ(fileName);};
+    std::vector<Mesh> meshes;
+    Model() {};
+    Model(std::string fileName) { loadOBJ(fileName); };
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
-    
+
     void loadOBJ(std::string fileName);
     void printOBJData();
+    void draw(Shader &shader);
 
 private:
     std::vector<glm::vec3> tempVertices;

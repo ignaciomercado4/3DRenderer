@@ -32,7 +32,7 @@ void Renderer::clear()
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 };
 
-void Renderer::renderModel(Model model, Shader shader, glm::mat4 transform, Texture texture)
+void Renderer::renderModel(Model &model, Shader &shader, glm::mat4 &transform, Texture &texture)
 {
     shader.use();
     shader.setInt(0, "u_Texture");
@@ -60,8 +60,7 @@ void Renderer::renderModel(Model model, Shader shader, glm::mat4 transform, Text
 
     shader.setMat4(transform, "u_Transform");
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture.ID);
+    texture.bind(0);
     glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(model.indices.size()), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
@@ -70,11 +69,8 @@ void Renderer::renderModel(Model model, Shader shader, glm::mat4 transform, Text
     glDeleteBuffers(1, &EBO);
 }
 
-void Renderer::renderSkybox(Shader shader, glm::mat4 transform, Texture texture)
+void Renderer::renderSkybox(Shader &shader)
 {
-    shader.use();
-    shader.setInt(0, "u_Skybox");
-    shader.setMat4(transform, "u_Transform");
     glDepthFunc(GL_LEQUAL); 
 
     const float points[] = {
@@ -130,9 +126,6 @@ void Renderer::renderSkybox(Shader shader, glm::mat4 transform, Texture texture)
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 
-    
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, texture.ID);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);

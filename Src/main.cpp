@@ -17,6 +17,7 @@
 #include "Camera.hpp"
 #include "Input.hpp"
 #include "Model.hpp"
+#include "ResourceManager.hpp"
 
 ///////////////////
 // CONSTS & VARS //
@@ -32,40 +33,56 @@ Camera camera = Camera();
 int main()
 {
 	Window window = Window(WINDOW_WIDTH, WINDOW_HEIGHT, TITLE, &camera);
-	Shader basicShader("basicShader");
-	Shader skyboxShader("skybox");
 	Renderer renderer = Renderer();
 	renderer.init();
-	Texture texture;
-	texture.loadPNG("test");
+    ResourceManager::init();
+	
 	Texture skyboxTexture;
 	skyboxTexture.loadCubemap();
-	Model amorphModel("Amorph");
 
 	///////////////
 	// MAIN LOOP //
 	///////////////
 	while (!window.getWindowShouldClose())
-	{
-		renderer.clear();
-		Input::updateKeyboard(camera, window);
+{
+    renderer.clear();
+    Input::updateKeyboard(camera, window);
 
-		glm::mat4 model(1.0f);
-		glm::mat4 view = camera.getViewMatrix();
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)(WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 100.0f);
-		model = glm::translate(model, glm::vec3(0, 0, -3));
-		glm::mat4 transform = projection * view * model;
-		renderer.renderModel(amorphModel, basicShader, transform, texture);
+    glm::mat4 view = camera.getViewMatrix();
+    glm::mat4 projection = glm::perspective(
+        glm::radians(45.0f),
+        (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT,
+        0.1f, 100.0f
+    );
 
-		glm::mat4 SBview = glm::mat4(glm::mat3(camera.getViewMatrix()));
-		glm::mat4 SBprojection = glm::perspective(glm::radians(45.0f),
-												  (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT,
-												  0.1f, 100.0f);
-		glm::mat4 SBtransform = SBprojection * SBview;
-		renderer.renderSkybox(skyboxShader, SBtransform, skyboxTexture);
+     ////// MODEL ///////
+    Shader& shader = ResourceManager::getShader("basicShader");
+    shader.use();
 
-		window.swapBuffersPollEvents();
-	}
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0, 0, -3));
+    glm::mat4 transform = projection * view * model;
+
+    shader.setMat4(transform, "u_Transform");
+
+    ResourceManager::getTexture("test").bind(0);
+    ResourceManager::getModel("Amorph").draw(shader);
+
+
+    ////// SKYBOX ///////
+    Shader& skyboxShader = ResourceManager::getShader("skybox");
+    skyboxShader.use();
+
+    glm::mat4 sbView = glm::mat4(glm::mat3(view));
+    glm::mat4 sbTransform = projection * sbView;
+    skyboxShader.setMat4(sbTransform, "u_Transform");
+    skyboxTexture.bindCubemap(0); 
+    renderer.renderSkybox(skyboxShader);
+   
+
+    window.swapBuffersPollEvents();
+}
+
 
 	glfwTerminate();
 	return 0;

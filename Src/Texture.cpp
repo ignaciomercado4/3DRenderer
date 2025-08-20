@@ -24,7 +24,7 @@ unsigned int Texture::loadPNG(std::string fileName)
 
     if (!data)
     {
-        std::cerr << "Error while loading texture at path: " << path << "\n";
+        std::cerr << "Texture: Error while loading texture at path: " << path << "\n";
         return 0;
     }
 
@@ -85,4 +85,16 @@ unsigned int Texture::loadCubemap()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
     return ID;
+}
+
+void Texture::bind(unsigned int unit = 0) const
+{
+    glActiveTexture(GL_TEXTURE0 + unit);
+    glBindTexture(GL_TEXTURE_2D, ID);
+}
+
+void Texture::bindCubemap(unsigned int unit = 0) const
+{
+    glActiveTexture(GL_TEXTURE0 + unit);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, ID);
 }

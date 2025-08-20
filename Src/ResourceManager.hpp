@@ -11,18 +11,27 @@
 #include "Model.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
-#include <vector>
+#include <map>
 
 class ResourceManager
 {
 public:
-    static void loadTexture(std::string fileName);
-    static void loadModel(std::string fileName);
+    static Texture &loadTexture(std::string name, std::string fileName);
+    static Shader &loadShader(std::string name, std::string fileName);
+    static Model &loadModel(std::string name, std::string fileName);
+
+    static Texture &getTexture(std::string name);
+    static Shader &getShader(std::string name);
+    static Model &getModel(std::string name);
+
+    static void init();
+
+    static void clear();
 
 private:
-    std::vector<std::string, Texture> textures;
-    std::vector<std::string, Shader> shaders;
-    std::vector<std::string, Model> textures;
+    static std::map<std::string, Texture> textures;
+    static std::map<std::string, Shader> shaders;
+    static std::map<std::string, Model> models;
 };
 
 #endif

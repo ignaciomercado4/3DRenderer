@@ -18,8 +18,8 @@ public:
     Renderer();
     void init();
     void clear();
-    void renderModel(Model model, Shader shader, glm::mat4 transform, Texture texture);
-    void renderSkybox(Shader shader, glm::mat4 transform, Texture texture);
+    void renderModel(Model &model, Shader &shader, glm::mat4 &transform, Texture &texture);
+    void renderSkybox(Shader &shader);
 private:
     unsigned VAO;
     unsigned VBO;

@@ -7,6 +7,9 @@
 //////////////
 
 #include "Model.hpp"
+#include "Mesh.hpp"
+#include "Renderer.hpp"
+#include "Shader.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -90,8 +93,6 @@ void Model::loadOBJ(std::string fileName)
         }
     }
 
-    file.close();
-
     for (int f = 0; f < faceVertexIndices.size(); ++f)
     {
         for (int v = 0; v < faceVertexIndices[f].size(); ++v)
@@ -122,6 +123,11 @@ void Model::loadOBJ(std::string fileName)
             indices.push_back(static_cast<unsigned int>(vertices.size() - 1));
         }
     }
+    
+    Mesh mesh(vertices, indices);
+    meshes.push_back(mesh);
+
+    file.close();
 }
 
 void Model::printOBJData()
@@ -142,4 +148,11 @@ void Model::printOBJData()
         std::cout << i << " ";
     }
     std::cout << std::endl;
+}
+
+void Model::draw(Shader &shader)
+{
+    for (auto& mesh : meshes) {
+        mesh.draw(shader);
+    }
 }

@@ -1,2 +1,2 @@
 # Credits
-Skybox texture: [https://opengameart.org/content/sky-box-sunny-day](https://opengameart.org/content/sky-box-sunny-day)
+Skybox texture: [https://learnopengl.com/img/textures/skybox.zip](https://learnopengl.com/img/textures/skybox.zip)
